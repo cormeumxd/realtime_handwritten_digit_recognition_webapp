@@ -8,8 +8,8 @@
     #clear
     {
         position: fixed;
-        left: 0%;
-        top: 70%;
+        left: 300px;
+        top: 450px;
         background-color: rgba(51, 51, 51, 0.05);
         border-radius: 8p   x;
         border-width: 0;
@@ -31,23 +31,41 @@
         -webkit-user-select: none;
         touch-action: manipulation;
     }
+
+    .progressbar{
+        position: fixed;
+        left: 700px;
+        height: 5px;
+        width: 300px;
+        border: 1px black;
+        background: linear-gradient(-90deg, green, #66FF99, yellow, orange, red);
+        clip-path: inset(0 99% 0 0);
+    }
     
 </style>
 <body style="margin: 0; overflow: hidden;">
-    <canvas id="canvas" style ="display: block; border: 2px solid gray; background-color: black; backface-visibility: visible;">biba</canvas>
+    <button id="clear" onclick="clear_func()">Clear</button>
+    <canvas id="canvas" style ="display: block; border: 2px solid gray; background-color: black; position: absolute; top: 150px; left: 300px;">biba</canvas>
+    <form id="image" action="/" method="post">
     <input type="hidden" id="canvasimg" name="canvasimg">
+    </form>
+    <p id="aboba" class="alert alert-success m-4 text-center">Prediction Result : {{ response }}</p>
+
     <script>
         var
             canv = document.getElementById('canvas'),
             ctx = canv.getContext('2d'),
             isMousePressed = false;
             //jpegUrl;
-        canv.width = 480;
-        canv.height =480;
+
+
+        canv.width = 280;
+        canv.height =280;
         ctx.lineWidth = 15;
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, canv.width, canv.height)
 
     // Code
-
 
     canv.addEventListener('mousedown', function(){
         isMousePressed = true;
@@ -62,31 +80,56 @@
     canv.addEventListener('mousemove', function(e){
         if (isMousePressed)
         {
-            ctx.lineTo(e.clientX, e.clientY);
+            coor = getCursorPosition(canv, e)
+            x = coor[0]
+            y = coor[1]
+
+            ctx.lineTo(x, y);
             ctx.strokeStyle = '#FFFFFF';
             ctx.stroke();
 
             ctx.beginPath();
-            ctx.arc(e.clientX, e.clientY, 8, 0, Math.PI * 2)
+            ctx.arc(x, y, 8, 0, Math.PI * 2)
             ctx.fillStyle = '#FFFFFF';
             ctx.fill();
 
             ctx.beginPath();
-            ctx.moveTo(e.clientX, e.clientY);
+            ctx.moveTo(x, y);
 
             //jpegUrl = canv.toDataURL("image/jpeg");
-            document.getElementById('canvasimg').value = canv.toDataURL("image/jpeg");
+            var img = canv.toDataURL("image/jpg");
+
+            $.ajax({
+                url : "/",
+                type: "POST",
+                data : {data: img},
+                success: function(data)
+                {
+                    //document.getElementById('aboba').innerText = data;
+                    $("#aboba").html(data).title;
+                    $('#p1')
+                },
+                });
             //console.log(document.getElementById('canvasimg').value )
         }
     });
+    function getCursorPosition(canvas, event) {
+    const rect = canvas.getBoundingClientRect()
+    const x = event.clientX - rect.left
+    const y = event.clientY - rect.top
+    //console.log(x, y)
+    return [x, y]
+}
 
     function clear_func()
 {
     var canvas = document.getElementById('canvas'),
         ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canv.width, canv.height)
 }
 </script>
-<button id="clear", onclick="clear_func()">Clear</button> 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </body>
 </html>
