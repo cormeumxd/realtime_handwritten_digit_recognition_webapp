@@ -1,0 +1,5 @@
+numpy~=1.24.0
+opencv-python~=4.6.0.66
+Flask~=2.2.2
+torch~=1.13.1
+torchvision~=0.14.1
