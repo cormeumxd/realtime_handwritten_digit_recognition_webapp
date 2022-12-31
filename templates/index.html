@@ -39,18 +39,15 @@
         width: 300px;
         border: 1px black;
         background: linear-gradient(-90deg, green, #66FF99, yellow, orange, red);
-        clip-path: inset(0 99% 0 0);
     }
+
+
     
 </style>
 <body style="margin: 0; overflow: hidden;">
     <button id="clear" onclick="clear_func()">Clear</button>
     <canvas id="canvas" style ="display: block; border: 2px solid gray; background-color: black; position: absolute; top: 150px; left: 300px;">biba</canvas>
-    <form id="image" action="/" method="post">
-    <input type="hidden" id="canvasimg" name="canvasimg">
-    </form>
-    <p id="aboba" class="alert alert-success m-4 text-center">Prediction Result : {{ response }}</p>
-
+    <p id="aboba" style="position:fixed; left: 700px; top: 130px; font-family: 'Helvetica', 'Arial', sans-serif; font-size: 14px; line-height: 15px">Start painting!</p>
     <script>
         var
             canv = document.getElementById('canvas'),
@@ -127,7 +124,8 @@
         ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, canv.width, canv.height)
+    ctx.fillRect(0, 0, canv.width, canv.height);
+    document.getElementById('aboba').innerHTML = "Start painting!";
 }
 </script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
