@@ -27,7 +27,7 @@ def canvas():
     img = img.unsqueeze(0)
     pr = model(img).detach().numpy()[0]
     pr *= 100
-    return render_template('scores.html', response=pr)
+    return render_template('scores.html', response=list(enumerate(pr)))
 
 
 if __name__ == "__main__":
