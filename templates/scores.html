@@ -1,6 +1,9 @@
+<div id="container">
 <label id="value_label">
-        {% for qqq in response %}
-        {{ qqq }}<br>
+        {% for scores in response %}
+        {{scores[0]}}: {{ scores[1] }}<br>
     </label>
-    <div id="pbar" class="progressbar" style="clip-path: inset(0 calc(99% - calc(1% * {{qqq}})) 0 0)"></div>
+    <div id="pbar" class="progressbar" style="clip-path: inset(0 calc(99% - calc(1% * {{scores[1]}})) 0 0)"></div>
+<br>
     {% endfor %}
+</div>
